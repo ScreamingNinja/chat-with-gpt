@@ -1,0 +1,36 @@
+# https://github.com/cogentapps/chat-with-gpt
+
+services:
+  chatbot:
+    image: ghcr.io/cogentapps/chat-with-gpt:release
+    container_name: chat-with-gpt
+
+    restart: unless-stopped
+
+    networks:
+      - traefik
+
+    volumes:
+      - data:/app/data
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+
+    expose:
+      - 3000
+
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.chatgpt.entrypoints=https
+      - traefik.http.routers.chatgpt.rule=Host(`${HOST}`)
+
+    security_opt:
+      - no-new-privileges:true
+
+networks:
+  traefik:
+    external: true
+
+volumes:
+  data:
+    name: chatgpt-data
+    external: true
