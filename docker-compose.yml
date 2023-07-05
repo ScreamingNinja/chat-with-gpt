@@ -12,7 +12,6 @@ services:
 
     volumes:
       - data:/app/data
-      - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
 
     expose:
